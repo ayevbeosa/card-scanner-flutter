@@ -1,10 +1,9 @@
-import 'dart:math';
-
-import 'package:card_scanner_example/scan_option_configure_widget/scan_option_configure_widget.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:card_scanner/card_scanner.dart';
+import 'package:flutter/material.dart';
+
+import 'scan_option_configure_widget/scan_option_configure_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,7 +44,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              RaisedButton(
+              TextButton(
                 onPressed: () async {
                   scanCard();
                 },
