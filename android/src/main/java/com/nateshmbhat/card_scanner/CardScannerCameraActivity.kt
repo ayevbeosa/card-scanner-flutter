@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.nateshmbhat.card_scanner.logger.debugLog
 import com.nateshmbhat.card_scanner.scanner_core.CardScanner
 import com.nateshmbhat.card_scanner.scanner_core.models.CardDetails
@@ -47,7 +49,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.card_scanner_camera_activity)
-    cardScannerOptions = intent.getParcelableExtra<CardScannerOptions>(CARD_SCAN_OPTIONS)
+    cardScannerOptions = intent.getParcelableExtra<CardScannerOptions?>(CARD_SCAN_OPTIONS)!!
 
     scannerLayout = findViewById(R.id.scannerLayout);
     scannerBar = findViewById(R.id.scannerBar);
@@ -107,6 +109,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
   override fun onRequestPermissionsResult(
           requestCode: Int, permissions: Array<String>, grantResults:
           IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     if (requestCode == REQUEST_CODE_PERMISSIONS) {
       if (allPermissionsGranted()) {
         startCamera()
@@ -142,7 +145,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
       cameraProvider?.unbind(analysisUseCase)
     }
     textRecognizer?.close()
-    textRecognizer = TextRecognition.getClient()
+    textRecognizer = TextRecognition.getClient(TextRecognizerOptions())
 
     debugLog("card scanner options : $cardScannerOptions", cardScannerOptions)
     val analysisUseCase = ImageAnalysis.Builder().build()
