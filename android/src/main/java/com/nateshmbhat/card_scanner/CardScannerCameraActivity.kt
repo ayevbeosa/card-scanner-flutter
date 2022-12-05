@@ -156,7 +156,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
             cameraProvider?.unbind(analysisUseCase)
         }
         textRecognizer?.close()
-        textRecognizer = TextRecognition.getClient(TextRecognizerOptions())
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         debugLog("card scanner options : $cardScannerOptions", cardScannerOptions)
         val analysisUseCase = ImageAnalysis.Builder().build()
