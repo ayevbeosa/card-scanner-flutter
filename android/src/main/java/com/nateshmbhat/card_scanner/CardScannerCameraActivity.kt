@@ -7,7 +7,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -20,7 +19,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
-import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.nateshmbhat.card_scanner.logger.debugLog
 import com.nateshmbhat.card_scanner.scanner_core.CardScanner
@@ -34,7 +32,7 @@ typealias onCardScanned = (cardDetails: CardDetails?) -> Unit
 typealias onCardScanFailed = () -> Unit
 
 class CardScannerCameraActivity : AppCompatActivity() {
-  private var previewUseCase: Preview? = null;
+  private var previewUseCase: Preview? = null
   private var cameraProvider: ProcessCameraProvider? = null
   private var cameraSelector: CameraSelector? = null
   private var textRecognizer: TextRecognizer? = null
@@ -49,14 +47,14 @@ class CardScannerCameraActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.card_scanner_camera_activity)
-    cardScannerOptions = intent.getParcelableExtra<CardScannerOptions?>(CARD_SCAN_OPTIONS)!!
+    cardScannerOptions = intent.getParcelableExtra(CARD_SCAN_OPTIONS)!!
 
-    scannerLayout = findViewById(R.id.scannerLayout);
-    scannerBar = findViewById(R.id.scannerBar);
+    scannerLayout = findViewById(R.id.scannerLayout)
+    scannerBar = findViewById(R.id.scannerBar)
     backButton = findViewById(R.id.backButton)
-    supportActionBar?.hide();
+    supportActionBar?.hide()
 
-    val vto = scannerLayout.viewTreeObserver;
+    val vto = scannerLayout.viewTreeObserver
     backButton.setOnClickListener {
       finish()
     }
@@ -88,7 +86,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
 
   private fun startCamera() {
     val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-    cameraProviderFuture.addListener(Runnable {
+    cameraProviderFuture.addListener({
       this.cameraProvider = cameraProviderFuture.get()
       this.cameraSelector = CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
 
@@ -134,7 +132,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
     previewUseCase = Preview.Builder().build()
     val previewView = findViewById<PreviewView>(R.id.cameraView)
     previewUseCase!!.setSurfaceProvider(previewView.surfaceProvider)
-    cameraProvider?.bindToLifecycle( /* lifecycleOwner= */this, cameraSelector!!, previewUseCase)
+    cameraProvider?.bindToLifecycle( /* lifecycleOwner = */this, cameraSelector!!, previewUseCase)
   }
 
   private fun bindAnalysisUseCase() {
@@ -153,7 +151,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
               it.setAnalyzer(cameraExecutor, CardScanner(cardScannerOptions, { cardDetails ->
                 debugLog("Card recognized : $cardDetails", cardScannerOptions)
 
-                val returnIntent: Intent = Intent()
+                val returnIntent = Intent()
                 returnIntent.putExtra(SCAN_RESULT, cardDetails)
                 setResult(Activity.RESULT_OK, returnIntent)
                 this.finish()
@@ -161,7 +159,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
                 onBackPressed()
               }))
             }
-    cameraProvider!!.bindToLifecycle( /* lifecycleOwner= */this, cameraSelector!!, analysisUseCase)
+    cameraProvider!!.bindToLifecycle( /* lifecycleOwner = */this, cameraSelector!!, analysisUseCase)
   }
 
   companion object {
