@@ -5,8 +5,6 @@ import 'package:card_scanner/card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'scan_option_configure_widget/scan_option_configure_widget.dart';
-
 void main() {
   runApp(MyApp());
 }
@@ -18,19 +16,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   CardDetails? _cardDetails;
-
-  // CardScanOptions scanOptions = CardScanOptions(
-  //   scanCardHolderName: true,
-  //   enableDebugLogs: true,
-  //   validCardsToScanBeforeFinishingScan: 5,
-  //   possibleCardHolderNamePositions: [
-  //     CardHolderNameScanPosition.aboveCardNumber,
-  //   ],
-  //   scanPrompt: 'Test test',
-  //   backButton: Image.asset(
-  //     'assets/icon/icon.png',
-  //   ),
-  // );
 
   Future<void> scanCard() async {
     ByteData bytes = await rootBundle.load('assets/icon/icon.png');
@@ -47,6 +32,7 @@ class _MyAppState extends State<MyApp> {
       ],
       scanPrompt: 'Test test',
       backButton: imageBase64,
+      permissionPrompt: 'Нужно разрешнеие',
     ));
     if (!mounted) return;
     if (cardDetails != null)

@@ -2,11 +2,13 @@ package com.nateshmbhat.card_scanner.scanner_core
 
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
+import androidx.activity.OnBackPressedCallback
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.nateshmbhat.card_scanner.CardScannerCameraActivity
 import com.nateshmbhat.card_scanner.SingleFrameCardScanner
 import com.nateshmbhat.card_scanner.logger.debugLog
 import com.nateshmbhat.card_scanner.onCardScanFailed
@@ -19,7 +21,7 @@ import com.nateshmbhat.card_scanner.scanner_core.optimizer.CardDetailsScanOptimi
 class CardScanner(
     private val scannerOptions: CardScannerOptions,
     private val onCardScanned: onCardScanned,
-    private val onCardScanFailed: onCardScanFailed
+    private val onCardScanFailed: onCardScanFailed,
 ) : ImageAnalysis.Analyzer {
     private val singleFrameCardScanner: SingleFrameCardScanner = SingleFrameCardScanner(scannerOptions)
     val cardDetailsScanOptimizer: CardDetailsScanOptimizer =
@@ -27,6 +29,7 @@ class CardScanner(
     private var scanCompleted: Boolean = false
 
     init {
+
         if (scannerOptions.cardScannerTimeOut > 0) {
             val timer =
                 object : CountDownTimer((scannerOptions.cardScannerTimeOut * 1000).toLong(), 1000) {
@@ -101,7 +104,7 @@ class CardScanner(
         }
     }
 
-    private fun finishCardScanning(cardDetails: CardDetails) {
+    private fun finishCardScanning(cardDetails: CardDetails?) {
         debugLog("OPTIMAL Card details : $cardDetails", scannerOptions)
         scanCompleted = true
         onCardScanned(cardDetails)

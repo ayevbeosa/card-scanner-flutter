@@ -18,6 +18,7 @@ data class CardScannerOptions(
         val possibleCardHolderNamePositions: List<String>,
         val scanPrompt: String?,
         val backButton: String?,
+        val permissionPrompt: String?,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -33,7 +34,8 @@ data class CardScannerOptions(
         enableDebugLogs = parcel.readByte() != 0.toByte(),
         possibleCardHolderNamePositions = parcel.createStringArrayList()!!,
         scanPrompt = parcel.readString()!!,
-        backButton = parcel.readString()!!
+        backButton = parcel.readString()!!,
+        permissionPrompt = parcel.readString()!!,
     )
 
     constructor(configMap: Map<String, String>) : this(
@@ -58,7 +60,8 @@ data class CardScannerOptions(
         )
             ?: listOf(CardHolderNameScanPositions.belowCardNumber.value),
         scanPrompt = configMap[ParcelKeys.scanPrompt.value],
-        backButton = configMap[ParcelKeys.scanPrompt.value],
+        backButton = configMap[ParcelKeys.backButton.value],
+        permissionPrompt = configMap[ParcelKeys.permissionPrompt.value],
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -75,6 +78,7 @@ data class CardScannerOptions(
         parcel.writeStringList(possibleCardHolderNamePositions)
         parcel.writeString(scanPrompt)
         parcel.writeString(backButton)
+        parcel.writeString(permissionPrompt)
     }
 
     override fun describeContents(): Int {
@@ -97,6 +101,7 @@ data class CardScannerOptions(
             possibleCardHolderNamePositions("possibleCardHolderNamePositions"),
             scanPrompt("scanPrompt"),
             backButton("backButton"),
+            permissionPrompt("permissionPrompt"),
         }
 
         override fun createFromParcel(parcel: Parcel): CardScannerOptions {

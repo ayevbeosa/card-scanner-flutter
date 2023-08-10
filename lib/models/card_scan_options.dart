@@ -42,6 +42,7 @@ class CardScanOptions {
 
   final String scanPrompt;
   final String backButton;
+  final String permissionPrompt;
 
   const CardScanOptions({this.scanExpiryDate = true,
     this.scanCardHolderName = false,
@@ -55,7 +56,8 @@ class CardScanOptions {
     this.cardScannerTimeOut = 0,
     this.possibleCardHolderNamePositions = const [CardHolderNameScanPosition.belowCardNumber],
     this.scanPrompt = "Scan your card",
-    this.backButton = 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAYxJREFUaEPtmNFKAzEQRU9/U1EQCj4IgqAgWKwiCoKCIPggFARFwX5P6e9IoCtl2GyzSSZhIH3Zh+4m58yk2ZtOMP6ZGOenCdTuYOtA60BiBdoS2lHA+eb728RCex/X7ICDv9nM7K4qEloC2/DO4Q641uiChoCEfwCuNODdmLkFJPwjcKkFn1tAwj8D55rwOQUk/Atwpg2fS0DCvwKnJeBzCEj4N+CkFHyqgIR/B45LwqcISPgFMC0NHysg4T+AoxrwMQIS/gs4qAU/VkDC/wB7NeHHCEj4JbAqBD8YAkOihIQvxP0/zSBjiICLwl2uLw2/c5WECLhBpMQvsC5k050peqcLFeiT+Ab2C0l4pxkj0CfxCRzWlBgr0Cdh6kXWFVv+JkxFCZ+EqTDnkzAVp30Spg40PglTR0qfxBNwob3FxmyjQ0xydzL1t4qvE/fATKsTuTvgk3CReDDTxApqCcg3tkmBTmL7GlvobGEuO0DqgJpLKJUt6PkmEFQmxZtaBxSLGzR060BQmRRv+gOFsj4x0r/MDQAAAABJRU5ErkJggg=='
+    this.backButton = 'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAYxJREFUaEPtmNFKAzEQRU9/U1EQCj4IgqAgWKwiCoKCIPggFARFwX5P6e9IoCtl2GyzSSZhIH3Zh+4m58yk2ZtOMP6ZGOenCdTuYOtA60BiBdoS2lHA+eb728RCex/X7ICDv9nM7K4qEloC2/DO4Q641uiChoCEfwCuNODdmLkFJPwjcKkFn1tAwj8D55rwOQUk/Atwpg2fS0DCvwKnJeBzCEj4N+CkFHyqgIR/B45LwqcISPgFMC0NHysg4T+AoxrwMQIS/gs4qAU/VkDC/wB7NeHHCEj4JbAqBD8YAkOihIQvxP0/zSBjiICLwl2uLw2/c5WECLhBpMQvsC5k050peqcLFeiT+Ab2C0l4pxkj0CfxCRzWlBgr0Cdh6kXWFVv+JkxFCZ+EqTDnkzAVp30Spg40PglTR0qfxBNwob3FxmyjQ0xydzL1t4qvE/fATKsTuTvgk3CReDDTxApqCcg3tkmBTmL7GlvobGEuO0DqgJpLKJUt6PkmEFQmxZtaBxSLGzR060BQmRRv+gOFsj4x0r/MDQAAAABJRU5ErkJggg==',
+    this.permissionPrompt = 'Permissions not granted by the user.',
   });
 
   Map<String, String> get map {
@@ -79,6 +81,7 @@ class CardScanOptions {
       'possibleCardHolderNamePositions': possibleNamePositions.join(","),
       'scanPrompt': scanPrompt,
       'backButton': backButton,
+      'permissionPrompt': permissionPrompt,
     };
   }
 }

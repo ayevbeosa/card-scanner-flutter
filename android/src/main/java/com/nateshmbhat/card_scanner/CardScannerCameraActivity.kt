@@ -1,6 +1,5 @@
 package com.nateshmbhat.card_scanner
 
-import BackButtonFragment
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -14,7 +13,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,10 +31,7 @@ import com.nateshmbhat.card_scanner.logger.debugLog
 import com.nateshmbhat.card_scanner.scanner_core.CardScanner
 import com.nateshmbhat.card_scanner.scanner_core.models.CardDetails
 import com.nateshmbhat.card_scanner.scanner_core.models.CardScannerOptions
-import io.flutter.embedding.android.FlutterFragment
 import io.flutter.embedding.android.FlutterView
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.engine.dart.DartExecutor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -70,7 +65,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
 
         scannerLayout = findViewById(R.id.scannerLayout)
         scannerBar = findViewById(R.id.scannerBar)
-        backButton = findViewById(R.id.backButton)
+//        backButton = findViewById(R.id.backButton)
 
         backButtonImageView = findViewById<ImageView>(R.id.backButtonImageView)
 
@@ -86,17 +81,26 @@ class CardScannerCameraActivity : AppCompatActivity() {
         val backButtonImageView = findViewById<ImageView>(R.id.backButtonImageView)
         backButtonImageView?.let {
             it.setImageBitmap(BitmapFactory.decodeByteArray(backButtonBytes, 0, backButtonBytes.size))
+            // Set a click listener for the back button
+            it.setOnClickListener {
+                // Handle back button click here
+                onBackPressed()
+            }
         }
 
         supportActionBar?.hide()
 
         val scanPrompt = cardScannerOptions.scanPrompt;
-
         val vto = scannerLayout.viewTreeObserver
 
-        backButton.setOnClickListener {
-            this.finish()
-//            onBackPressed()
+//        backButton.setOnClickListener {
+//            this.finish()
+////            onBackPressed()
+//        }
+
+        backButtonImageView.setOnClickListener {
+//            this.finish()
+            onBackPressed()
         }
 
 
@@ -119,6 +123,7 @@ class CardScannerCameraActivity : AppCompatActivity() {
 
         val scanPromptTextView = findViewById<TextView>(R.id.scanPromptTextView)
         scanPromptTextView.text = scanPrompt
+
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -164,9 +169,12 @@ class CardScannerCameraActivity : AppCompatActivity() {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
+                cardScannerOptions = intent.getParcelableExtra(CARD_SCAN_OPTIONS)!!
+                val permissionPrompt = cardScannerOptions.permissionPrompt
+
                 Toast.makeText(
                         this,
-                        "Permissions not granted by the user.",
+                        permissionPrompt,
                         Toast.LENGTH_SHORT
                 ).show()
                 finish()
@@ -205,16 +213,24 @@ class CardScannerCameraActivity : AppCompatActivity() {
         debugLog("card scanner options : $cardScannerOptions", cardScannerOptions)
         val analysisUseCase = ImageAnalysis.Builder().build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, CardScanner(cardScannerOptions, { cardDetails ->
+                    it.setAnalyzer(cameraExecutor,
+
+
+                            CardScanner(
+                                    cardScannerOptions,
+
+                                    { cardDetails ->
                         debugLog("Card recognized : $cardDetails", cardScannerOptions)
 
                         val returnIntent = Intent()
                         returnIntent.putExtra(SCAN_RESULT, cardDetails)
                         setResult(Activity.RESULT_OK, returnIntent)
                         this.finish()
-                    }, onCardScanFailed = {
+                    },
+                                    onCardScanFailed = {
                         onBackPressed()
-                    }))
+                    },
+                                    ))
                 }
         cameraProvider!!.bindToLifecycle( /* lifecycleOwner = */this,
                 cameraSelector!!,
@@ -248,7 +264,11 @@ class CardScannerCameraActivity : AppCompatActivity() {
     override fun onBackPressed() {
         setResult(Activity.RESULT_CANCELED)
         try {
+//            super.onBackPressed()
+            cameraExecutor.shutdown()
+//            this.finish()
             super.onBackPressed()
+//            super.onBackPressed()
         } catch (e: NullPointerException) {
             Log.d("Exception", "NullPointerException")
         }
