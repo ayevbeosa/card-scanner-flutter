@@ -7,8 +7,7 @@ class OptionConfigureWidget extends StatefulWidget {
   final void Function(CardScanOptions scanOptions) onScanOptionChanged;
   final CardScanOptions initialOptions;
 
-  const OptionConfigureWidget(
-      {Key key, @required this.onScanOptionChanged, this.initialOptions})
+  const OptionConfigureWidget({Key? key, required this.onScanOptionChanged, required this.initialOptions})
       : super(key: key);
 
   @override
@@ -33,9 +32,7 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
 
   bool enableDebugLogs = false;
 
-  Set<CardHolderNameScanPosition> possibleCardHolderNamePositions = {
-    CardHolderNameScanPosition.belowCardNumber
-  };
+  Set<CardHolderNameScanPosition> possibleCardHolderNamePositions = {CardHolderNameScanPosition.belowCardNumber};
 
   @override
   void initState() {
@@ -43,17 +40,14 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
     scanExpiryDate = options.scanExpiryDate;
     scanCardHolderName = options.scanCardHolderName;
     initialScansToDrop = options.initialScansToDrop;
-    validCardsToScanBeforeFinishingScan =
-        options.validCardsToScanBeforeFinishingScan;
+    validCardsToScanBeforeFinishingScan = options.validCardsToScanBeforeFinishingScan;
     cardHolderNameBlackListedWords = options.cardHolderNameBlackListedWords;
-    considerPastDatesInExpiryDateScan =
-        options.considerPastDatesInExpiryDateScan;
+    considerPastDatesInExpiryDateScan = options.considerPastDatesInExpiryDateScan;
     maxCardHolderNameLength = options.maxCardHolderNameLength;
     enableLuhnCheck = options.enableLuhnCheck;
     cardScannerTimeOut = options.cardScannerTimeOut;
     enableDebugLogs = options.enableDebugLogs;
-    possibleCardHolderNamePositions =
-        options.possibleCardHolderNamePositions.toSet();
+    possibleCardHolderNamePositions = options.possibleCardHolderNamePositions.toSet();
     super.initState();
   }
 
@@ -62,50 +56,32 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          buildCheckBox('enable Luhn Check', enableLuhnCheck,
-              (newValue) => enableLuhnCheck = newValue),
-          buildCheckBox('scan expiry date', scanExpiryDate,
-              (newValue) => scanExpiryDate = newValue),
-          buildCheckBox('scan card holder name', scanCardHolderName,
-              (newValue) => scanCardHolderName = newValue),
-          buildCheckBox(
-              'consider past dates in expiry scan',
-              considerPastDatesInExpiryDateScan,
+          buildCheckBox('enable Luhn Check', enableLuhnCheck, (newValue) => enableLuhnCheck = newValue),
+          buildCheckBox('scan expiry date', scanExpiryDate, (newValue) => scanExpiryDate = newValue),
+          buildCheckBox('scan card holder name', scanCardHolderName, (newValue) => scanCardHolderName = newValue),
+          buildCheckBox('consider past dates in expiry scan', considerPastDatesInExpiryDateScan,
               (newValue) => considerPastDatesInExpiryDateScan = newValue),
-          buildCheckBox('enable debug logs', enableDebugLogs,
-              (newValue) => enableDebugLogs = newValue),
-          buildIntegerEditWidget(
-              'min frames to scan before finish',
-              validCardsToScanBeforeFinishingScan,
+          buildCheckBox('enable debug logs', enableDebugLogs, (newValue) => enableDebugLogs = newValue),
+          buildIntegerEditWidget('min frames to scan before finish', validCardsToScanBeforeFinishingScan,
               (newValue) => validCardsToScanBeforeFinishingScan = newValue),
           buildIntegerEditWidget(
-              'max card holder name length',
-              maxCardHolderNameLength,
-              (newValue) => maxCardHolderNameLength = newValue),
-          buildIntegerEditWidget('scanner timeout seconds (0 = infinite)',
-              cardScannerTimeOut, (newValue) => cardScannerTimeOut = newValue),
-          buildCheckBox(
-              'expect card holder ABOVE card number',
-              possibleCardHolderNamePositions.contains(
-                  CardHolderNameScanPosition.aboveCardNumber), (newValue) {
+              'max card holder name length', maxCardHolderNameLength, (newValue) => maxCardHolderNameLength = newValue),
+          buildIntegerEditWidget('scanner timeout seconds (0 = infinite)', cardScannerTimeOut,
+              (newValue) => cardScannerTimeOut = newValue),
+          buildCheckBox('expect card holder ABOVE card number',
+              possibleCardHolderNamePositions.contains(CardHolderNameScanPosition.aboveCardNumber), (newValue) {
             if (newValue == true) {
-              possibleCardHolderNamePositions
-                  .add(CardHolderNameScanPosition.aboveCardNumber);
+              possibleCardHolderNamePositions.add(CardHolderNameScanPosition.aboveCardNumber);
             } else
-              possibleCardHolderNamePositions
-                  .remove(CardHolderNameScanPosition.aboveCardNumber);
+              possibleCardHolderNamePositions.remove(CardHolderNameScanPosition.aboveCardNumber);
             setState(() {});
           }),
-          buildCheckBox(
-              'expect card holder BELOW card number',
-              possibleCardHolderNamePositions.contains(
-                  CardHolderNameScanPosition.belowCardNumber), (newValue) {
+          buildCheckBox('expect card holder BELOW card number',
+              possibleCardHolderNamePositions.contains(CardHolderNameScanPosition.belowCardNumber), (newValue) {
             if (newValue == true) {
-              possibleCardHolderNamePositions
-                  .add(CardHolderNameScanPosition.belowCardNumber);
+              possibleCardHolderNamePositions.add(CardHolderNameScanPosition.belowCardNumber);
             } else
-              possibleCardHolderNamePositions
-                  .remove(CardHolderNameScanPosition.belowCardNumber);
+              possibleCardHolderNamePositions.remove(CardHolderNameScanPosition.belowCardNumber);
             setState(() {});
           }),
           Divider(),
@@ -116,8 +92,7 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
                 Text('black listed card holder names (comma separated)'),
                 TextField(
                   decoration: InputDecoration(border: OutlineInputBorder()),
-                  onChanged: (value) =>
-                      cardHolderNameBlackListedWords = value.split(','),
+                  onChanged: (value) => cardHolderNameBlackListedWords = value.split(','),
                   onEditingComplete: () {
                     setState(() {});
                   },
@@ -181,9 +156,9 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
 
   @override
   void setState(fn) {
-    widget.onScanOptionChanged(CardScanOptions(
-        possibleCardHolderNamePositions:
-            possibleCardHolderNamePositions.toList(),
+    widget.onScanOptionChanged(
+      CardScanOptions(
+        possibleCardHolderNamePositions: possibleCardHolderNamePositions.toList(),
         cardHolderNameBlackListedWords: cardHolderNameBlackListedWords,
         enableDebugLogs: enableDebugLogs,
         scanCardHolderName: scanCardHolderName,
@@ -193,8 +168,11 @@ class _OptionConfigureWidgetState extends State<OptionConfigureWidget> {
         initialScansToDrop: initialScansToDrop,
         maxCardHolderNameLength: maxCardHolderNameLength,
         scanExpiryDate: scanExpiryDate,
-        validCardsToScanBeforeFinishingScan:
-            validCardsToScanBeforeFinishingScan));
+        validCardsToScanBeforeFinishingScan: validCardsToScanBeforeFinishingScan,
+        backButton:
+            'iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAYxJREFUaEPtmNFKAzEQRU9/U1EQCj4IgqAgWKwiCoKCIPggFARFwX5P6e9IoCtl2GyzSSZhIH3Zh+4m58yk2ZtOMP6ZGOenCdTuYOtA60BiBdoS2lHA+eb728RCex/X7ICDv9nM7K4qEloC2/DO4Q641uiChoCEfwCuNODdmLkFJPwjcKkFn1tAwj8D55rwOQUk/Atwpg2fS0DCvwKnJeBzCEj4N+CkFHyqgIR/B45LwqcISPgFMC0NHysg4T+AoxrwMQIS/gs4qAU/VkDC/wB7NeHHCEj4JbAqBD8YAkOihIQvxP0/zSBjiICLwl2uLw2/c5WECLhBpMQvsC5k050peqcLFeiT+Ab2C0l4pxkj0CfxCRzWlBgr0Cdh6kXWFVv+JkxFCZ+EqTDnkzAVp30Spg40PglTR0qfxBNwob3FxmyjQ0xydzL1t4qvE/fATKsTuTvgk3CReDDTxApqCcg3tkmBTmL7GlvobGEuO0DqgJpLKJUt6PkmEFQmxZtaBxSLGzR060BQmRRv+gOFsj4x0r/MDQAAAABJRU5ErkJggg==',
+      ),
+    );
     super.setState(fn);
   }
 }

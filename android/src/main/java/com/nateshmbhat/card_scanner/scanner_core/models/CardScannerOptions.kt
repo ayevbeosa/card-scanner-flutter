@@ -2,21 +2,22 @@ package com.nateshmbhat.card_scanner.scanner_core.models
 
 import android.os.Parcel
 import android.os.Parcelable
-
-//@author nateshmbhat created on 29,June,2020
+import android.view.View
 
 data class CardScannerOptions(
-    val scanExpiryDate: Boolean,
-    val scanCardHolderName: Boolean,
-    val initialScansToDrop: Int,
-    val validCardsToScanBeforeFinishingScan: Int,
-    val cardHolderNameBlackListedWords: List<String>,
-    val considerPastDatesInExpiryDateScan: Boolean,
-    val maxCardHolderNameLength: Int,
-    val enableLuhnCheck: Boolean,
-    val cardScannerTimeOut: Int,
-    val enableDebugLogs: Boolean,
-    val possibleCardHolderNamePositions: List<String>
+        val scanExpiryDate: Boolean,
+        val scanCardHolderName: Boolean,
+        val initialScansToDrop: Int,
+        val validCardsToScanBeforeFinishingScan: Int,
+        val cardHolderNameBlackListedWords: List<String>,
+        val considerPastDatesInExpiryDateScan: Boolean,
+        val maxCardHolderNameLength: Int,
+        val enableLuhnCheck: Boolean,
+        val cardScannerTimeOut: Int,
+        val enableDebugLogs: Boolean,
+        val possibleCardHolderNamePositions: List<String>,
+        val scanPrompt: String?,
+        val backButton: String?,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -30,7 +31,9 @@ data class CardScannerOptions(
         enableLuhnCheck = parcel.readByte() != 0.toByte(),
         cardScannerTimeOut = parcel.readInt(),
         enableDebugLogs = parcel.readByte() != 0.toByte(),
-        possibleCardHolderNamePositions = parcel.createStringArrayList()!!
+        possibleCardHolderNamePositions = parcel.createStringArrayList()!!,
+        scanPrompt = parcel.readString()!!,
+        backButton = parcel.readString()!!
     )
 
     constructor(configMap: Map<String, String>) : this(
@@ -53,7 +56,9 @@ data class CardScannerOptions(
         possibleCardHolderNamePositions = configMap[ParcelKeys.possibleCardHolderNamePositions.value]?.split(
             ','
         )
-            ?: listOf(CardHolderNameScanPositions.belowCardNumber.value)
+            ?: listOf(CardHolderNameScanPositions.belowCardNumber.value),
+        scanPrompt = configMap[ParcelKeys.scanPrompt.value],
+        backButton = configMap[ParcelKeys.scanPrompt.value],
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -68,6 +73,8 @@ data class CardScannerOptions(
         parcel.writeInt(cardScannerTimeOut)
         parcel.writeByte(if (enableDebugLogs) 1 else 0)
         parcel.writeStringList(possibleCardHolderNamePositions)
+        parcel.writeString(scanPrompt)
+        parcel.writeString(backButton)
     }
 
     override fun describeContents(): Int {
@@ -87,7 +94,9 @@ data class CardScannerOptions(
             enableLuhnCheck("enableLuhnCheck"),
             cardScannerTimeOut("cardScannerTimeOut"),
             enableDebugLogs("enableDebugLogs"),
-            possibleCardHolderNamePositions("possibleCardHolderNamePositions")
+            possibleCardHolderNamePositions("possibleCardHolderNamePositions"),
+            scanPrompt("scanPrompt"),
+            backButton("backButton"),
         }
 
         override fun createFromParcel(parcel: Parcel): CardScannerOptions {

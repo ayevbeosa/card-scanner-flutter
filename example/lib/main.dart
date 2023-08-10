@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:card_scanner/card_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'scan_option_configure_widget/scan_option_configure_widget.dart';
 
@@ -15,22 +17,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  CardDetails _cardDetails;
-  CardScanOptions scanOptions = CardScanOptions(
-    scanCardHolderName: true,
-    // enableDebugLogs: true,
-    validCardsToScanBeforeFinishingScan: 5,
-    possibleCardHolderNamePositions: [
-      CardHolderNameScanPosition.aboveCardNumber,
-    ],
-  );
+  CardDetails? _cardDetails;
+
+  // CardScanOptions scanOptions = CardScanOptions(
+  //   scanCardHolderName: true,
+  //   enableDebugLogs: true,
+  //   validCardsToScanBeforeFinishingScan: 5,
+  //   possibleCardHolderNamePositions: [
+  //     CardHolderNameScanPosition.aboveCardNumber,
+  //   ],
+  //   scanPrompt: 'Test test',
+  //   backButton: Image.asset(
+  //     'assets/icon/icon.png',
+  //   ),
+  // );
 
   Future<void> scanCard() async {
-    var cardDetails = await CardScanner.scanCard(scanOptions: scanOptions);
+    ByteData bytes = await rootBundle.load('assets/icon/icon.png');
+    var buffer = bytes.buffer;
+    var imageBase64 = base64.encode(Uint8List.view(buffer));
+
+    var cardDetails = await CardScanner.scanCard(
+        scanOptions: CardScanOptions(
+      scanCardHolderName: true,
+      enableDebugLogs: true,
+      validCardsToScanBeforeFinishingScan: 5,
+      possibleCardHolderNamePositions: [
+        CardHolderNameScanPosition.aboveCardNumber,
+      ],
+      scanPrompt: 'Test test',
+      backButton: imageBase64,
+    ));
     if (!mounted) return;
-    setState(() {
-      _cardDetails = cardDetails;
-    });
+    if (cardDetails != null)
+      setState(() {
+        _cardDetails = cardDetails!;
+      });
   }
 
   @override
@@ -50,13 +72,13 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: Text('scan card'),
               ),
-              Text('$_cardDetails'),
-              Expanded(
-                child: OptionConfigureWidget(
-                  initialOptions: scanOptions,
-                  onScanOptionChanged: (newOptions) => scanOptions = newOptions,
-                ),
-              )
+              if (_cardDetails != null) Text('$_cardDetails'),
+              // Expanded(
+              //   child: OptionConfigureWidget(
+              //     initialOptions: scanOptions,
+              //     onScanOptionChanged: (newOptions) => scanOptions = newOptions,
+              //   ),
+              // )
             ],
           ),
         ),
