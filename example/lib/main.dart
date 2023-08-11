@@ -23,17 +23,19 @@ class _MyAppState extends State<MyApp> {
     var imageBase64 = base64.encode(Uint8List.view(buffer));
 
     var cardDetails = await CardScanner.scanCard(
-        scanOptions: CardScanOptions(
-      scanCardHolderName: true,
-      enableDebugLogs: true,
-      validCardsToScanBeforeFinishingScan: 5,
-      possibleCardHolderNamePositions: [
-        CardHolderNameScanPosition.aboveCardNumber,
-      ],
-      scanPrompt: 'Test test',
-      backButton: imageBase64,
-      permissionPrompt: 'Нужно разрешнеие',
-    ));
+      scanOptions: CardScanOptions(
+        scanCardHolderName: false,
+        scanExpiryDate: false,
+        enableDebugLogs: true,
+        validCardsToScanBeforeFinishingScan: 1,
+        initialScansToDrop: 0,
+        scanPrompt: 'Test test',
+        backButton: imageBase64,
+        permissionPrompt: 'Нужно разрешнеие',
+        enableLuhnCheck: false,
+        considerPastDatesInExpiryDateScan: false,
+      ),
+    );
     if (!mounted) return;
     if (cardDetails != null)
       setState(() {

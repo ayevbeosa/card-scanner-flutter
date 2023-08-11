@@ -28,6 +28,9 @@ class CameraViewController: UIViewController {
     var input: AVCaptureDeviceInput!
     var prompt: String = ""
     var torchOn: Bool = false
+    var scanPrompt: String = ""
+    var backButtonPrompt: String = ""
+    var permissionPrompt: String = ""
     
     var cameraOrientation: CameraOrientation = .portrait
     
@@ -97,6 +100,7 @@ class CameraViewController: UIViewController {
         addScanControlsAndIndicators()
         
         startScanning()
+     
     }
     
     func gainCameraPermission() {
@@ -108,18 +112,26 @@ class CameraViewController: UIViewController {
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 if granted {
                     self.setupCaptureSession()
+                }else {
+                    // Permission denied
+                    self.showPermissionDeniedToast()
                 }
             }
             
         case .denied, .restricted:
-            // The user has previously denied access; or
-            // The user can't grant access due to restrictions.
-            fallthrough
+                // Permission denied
+                showPermissionDeniedToast()
             
         @unknown default:
             NSLog("Camera Permissions Error")
             dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func showPermissionDeniedToast() {
+        let toast = ToastView(message: permissionPrompt)
+           toast.show(in: view)
+        
     }
     
     func addInputDeviceToSession() {
@@ -147,7 +159,7 @@ class CameraViewController: UIViewController {
     func refocus() {
         do {
             try device.lockForConfiguration()
-            device.focusMode = .autoFocus
+            device.focusMode = .continuousAutoFocus
         } catch {
             print(error)
         }
@@ -186,7 +198,7 @@ class CameraViewController: UIViewController {
             )
             
             scanYourCardToProceedLabel.textAlignment = NSTextAlignment.center
-            scanYourCardToProceedLabel.text = self.prompt
+            scanYourCardToProceedLabel.text = self.scanPrompt
             scanYourCardToProceedLabel.numberOfLines = 0
             scanYourCardToProceedLabel.font = scanYourCardToProceedLabel.font.withSize(12.0)
             scanYourCardToProceedLabel.textColor = .white
@@ -198,7 +210,7 @@ class CameraViewController: UIViewController {
     func addNavigationBar() {
         DispatchQueue.main.async {
             self.view.addSubview(self.backButton)
-            self.view.addSubview(self.flashButton)
+//            self.view.addSubview(self.flashButton)
         }
     }
     
@@ -241,17 +253,25 @@ class CameraViewController: UIViewController {
             frame: CGRect(
                 x: 30,
                 y: 55,
-                width: 17 + 30,
-                height: 17 + 10
+                width: 30 + 30,
+                height: 30 + 10
             )
         )
         
-        backBtn.setImage(
-            UIImage(
-                named: "backButton"
-            ),
-            for: .normal
-        )
+//        backBtn.setImage(
+//            UIImage(
+//                named: "backButton"
+//            ),
+//            for: .normal
+//        )
+        
+           if let backButtonData = Data(base64Encoded: backButtonPrompt) {
+               let backButtonImage = UIImage(data: backButtonData)
+               backBtn.setImage(
+                   backButtonImage,
+                   for: .normal
+               )
+           }
         
         backBtn.addTarget(
             self,
@@ -461,4 +481,5 @@ extension AVCaptureDevice {
         return torchMode == .on
     }
 }
+
 

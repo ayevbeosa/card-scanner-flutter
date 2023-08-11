@@ -24,13 +24,19 @@ class CardDetailsScanOptimizer(private val _scannerOptions: CardScannerOptions) 
     ///drop first few scan results which have more chances of errors
     if (numberOfCardDetailsProcessed <= _scannerOptions.initialScansToDrop) return;
     _handleCardNumber(cardNumber);
-    _handleExpiryDateNumber(expiryDate);
-    _handleCardHolderName(cardHolder);
+
+    if(_scannerOptions.scanExpiryDate == true) {
+      _handleExpiryDateNumber(expiryDate);
+    }
+
+    if(_scannerOptions.scanCardHolderName == true){
+      _handleCardHolderName(cardHolder);
+    }
     _updateOptimalData();
   }
 
   fun isReadyToFinishScan(): Boolean {
-    return numberOfCardDetailsProcessed > _scannerOptions.validCardsToScanBeforeFinishingScan;
+    return numberOfCardDetailsProcessed >= _scannerOptions.validCardsToScanBeforeFinishingScan;
   }
 
   private fun _updateOptimalData() {

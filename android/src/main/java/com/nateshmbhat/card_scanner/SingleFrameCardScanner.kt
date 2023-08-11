@@ -1,6 +1,8 @@
 package com.nateshmbhat.card_scanner
 
+import android.util.Log
 import com.google.mlkit.vision.text.Text
+import com.nateshmbhat.card_scanner.logger.debugLog
 import com.nateshmbhat.card_scanner.scanner_core.models.CardDetails
 import com.nateshmbhat.card_scanner.scanner_core.models.CardScannerOptions
 import com.nateshmbhat.card_scanner.scanner_core.scan_filters.CardHolderNameFilter
@@ -9,6 +11,7 @@ import com.nateshmbhat.card_scanner.scanner_core.scan_filters.ExpiryDateFilter
 
 class SingleFrameCardScanner(private val scannerOptions: CardScannerOptions) {
   fun scanSingleFrame(visionText: Text): CardDetails? {
+    Log.d("visionText", visionText.toString());
     val cardNumberResult = CardNumberFilter(visionText, scannerOptions).filter();
     if (cardNumberResult?.cardNumber?.isEmpty() != false) {
       return null;

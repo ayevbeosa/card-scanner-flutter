@@ -35,13 +35,19 @@ class CardScanOptions {
   final int cardScannerTimeOut;
 
   final bool enableDebugLogs;
-
   ///indicates possible positions are the expected positions for the card holder name with respect to the card number
   ///defaults to [CardHolderNameScanPosition.belowCardNumber]
   final List<CardHolderNameScanPosition> possibleCardHolderNamePositions;
 
+
+  ///Text under scanner square
   final String scanPrompt;
+
+  ///Icon on top left corner of scanner square
+  ///Only base64 string supported
   final String backButton;
+
+  ///Text Toast show then permission is not granted
   final String permissionPrompt;
 
   const CardScanOptions({this.scanExpiryDate = true,

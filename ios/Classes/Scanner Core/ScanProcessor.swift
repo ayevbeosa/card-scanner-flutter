@@ -43,8 +43,10 @@ public class ScanProcessor {
         cameraViewController.cameraDelegate = self
         cameraViewController.cameraOrientation = cardScanOptions.cameraOrientation
         cameraViewController.prompt = cardScanOptions.prompt
+        cameraViewController.scanPrompt = cardScanOptions.scanPrompt
+        cameraViewController.backButtonPrompt = cardScanOptions.backButton
+        cameraViewController.permissionPrompt = cardScanOptions.permissionPrompt
         cameraViewController.modalPresentationStyle = .fullScreen
-        
         return cameraViewController
     }
 }
@@ -52,6 +54,9 @@ public class ScanProcessor {
 // MARK:- CameraDelegate
 extension ScanProcessor: CameraDelegate {
     func camera(_ camera: CameraViewController, didScan scanResult: Text) {
+        
+     
+
         guard let cardDetails = singleFrameCardScanner.scanSingleFrame(visionText: scanResult) else {
             return
         }
