@@ -41,17 +41,17 @@ class CardScanOptions {
 
 
   ///Text under scanner square
-  final String scanPrompt;
+  final String? scanPrompt;
 
   ///Icon on top left corner of scanner square
   ///Only base64 string supported
-  final String backButton;
+  final String? backButton;
 
   ///Text Toast show then permission is not granted
-  final String permissionPrompt;
+  final String? permissionPrompt;
 
   ///Title for scan screen
-  final String title;
+  final String? title;
 
   const CardScanOptions({this.scanExpiryDate = true,
     this.scanCardHolderName = false,
@@ -89,10 +89,10 @@ class CardScanOptions {
       'cardScannerTimeOut': cardScannerTimeOut.toString(),
       'enableDebugLogs': enableDebugLogs.toString(),
       'possibleCardHolderNamePositions': possibleNamePositions.join(","),
-      'scanPrompt': scanPrompt,
-      'backButton': backButton,
-      'permissionPrompt': permissionPrompt,
-      'title': title,
+      'scanPrompt': scanPrompt??'',
+      'backButton': backButton??'',
+      'permissionPrompt': permissionPrompt??'',
+      'title': title??'',
     };
   }
 }
