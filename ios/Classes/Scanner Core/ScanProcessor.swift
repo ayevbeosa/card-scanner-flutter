@@ -46,6 +46,7 @@ public class ScanProcessor {
         cameraViewController.scanPrompt = cardScanOptions.scanPrompt
         cameraViewController.backButtonPrompt = cardScanOptions.backButton
         cameraViewController.permissionPrompt = cardScanOptions.permissionPrompt
+        cameraViewController.titlePropt = cardScanOptions.titlePropt
         cameraViewController.modalPresentationStyle = .fullScreen
         return cameraViewController
     }

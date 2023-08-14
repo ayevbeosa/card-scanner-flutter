@@ -93,6 +93,8 @@ class CardScannerCameraActivity : AppCompatActivity() {
         val scanPrompt = cardScannerOptions.scanPrompt;
         val vto = scannerLayout.viewTreeObserver
 
+        val title = cardScannerOptions.title;
+
 //        backButton.setOnClickListener {
 //            this.finish()
 ////            onBackPressed()
@@ -124,6 +126,8 @@ class CardScannerCameraActivity : AppCompatActivity() {
         val scanPromptTextView = findViewById<TextView>(R.id.scanPromptTextView)
         scanPromptTextView.text = scanPrompt
 
+        val titleTextView = findViewById<TextView>(R.id.title)
+        titleTextView.text = title
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 

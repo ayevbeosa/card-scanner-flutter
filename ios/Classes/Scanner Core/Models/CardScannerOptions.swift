@@ -25,6 +25,7 @@ public class CardScannerOptions {
     var scanPrompt: String = "Scan the back of your Credit Card to proceed"
     var backButton: String = "iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAYxJREFUaEPtmNFKAzEQRU9/U1EQCj4IgqAgWKwiCoKCIPggFARFwX5P6e9IoCtl2GyzSSZhIH3Zh+4m58yk2ZtOMP6ZGOenCdTuYOtA60BiBdoS2lHA+eb728RCex/X7ICDv9nM7K4qEloC2/DO4Q641uiChoCEfwCuNODdmLkFJPwjcKkFn1tAwj8D55rwOQUk/Atwpg2fS0DCvwKnJeBzCEj4N+CkFHyqgIR/B45LwqcISPgFMC0NHysg4T+AoxrwMQIS/gs4qAU/VkDC/wB7NeHHCEj4JbAqBD8YAkOihIQvxP0/zSBjiICLwl2uLw2/c5WECLhBpMQvsC5k050peqcLFeiT+Ab2C0l4pxkj0CfxCRzWlBgr0Cdh6kXWFVv+JkxFCZ+EqTDnkzAVp30Spg40PglTR0qfxBNwob3FxmyjQ0xydzL1t4qvE/fATKsTuTvgk3CReDDTxApqCcg3tkmBTmL7GlvobGEuO0DqgJpLKJUt6PkmEFQmxZtaBxSLGzR060BQmRRv+gOFsj4x0r/MDQAAAABJRU5ErkJggg=="
     var permissionPrompt: String = "Permissions not granted by the user."
+    var titlePropt: String = "Scan Card"
     
     init(
         scanCardHolderName: Bool = false,
@@ -40,7 +41,8 @@ public class CardScannerOptions {
         possibleCardHolderNamePositions: [String],
         scanPrompt: String,
         backButton :String,
-        permissionPrompt:String
+        permissionPrompt:String,
+        titlePropt:String
     ) {
         self.scanCardHolderName = scanCardHolderName
         self.scanExpiryDate = scanExpiryDate
@@ -56,6 +58,7 @@ public class CardScannerOptions {
         self.scanPrompt = scanPrompt
         self.backButton = backButton
         self.permissionPrompt = permissionPrompt
+        self.titlePropt = titlePropt
     }
     
     init(from options: [String: String]?) {
@@ -122,6 +125,10 @@ public class CardScannerOptions {
             
             if let permissionPrompt = options["permissionPrompt"] {
                 self.permissionPrompt = permissionPrompt
+            }
+            
+            if let title = options["title"] {
+                self.titlePropt = title
             }
         }
     }

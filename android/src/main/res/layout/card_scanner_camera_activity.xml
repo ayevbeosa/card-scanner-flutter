@@ -28,6 +28,26 @@
 <!--                android:layout_height="17dp"-->
 <!--                android:textSize="24sp"/>-->
 
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lineSpacingExtra="6sp"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:layout_marginTop="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Header"
+            />
+
+
+
             <ImageView
                 android:id="@+id/backButtonImageView"
                 android:layout_marginStart="28dp"
@@ -36,13 +56,23 @@
                 android:layout_height="28dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:textSize="24sp"/>
+                android:textSize="24sp"
+                android:contentDescription="backButton" />
 
-
-            <FrameLayout
-                android:id="@+id/flutterContainer"
+            <TextView
+                android:id="@+id/scanPromptTextView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lineSpacingExtra="6sp"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+
+                />
+
 
 
         </RelativeLayout>
@@ -103,16 +133,16 @@
 <!--            android:textSize="12sp" />-->
 
 
-            <TextView
-                android:id="@+id/scanPromptTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:lineSpacingExtra="6sp"
-                android:layout_centerInParent="true"
-                android:textAlignment="center"
-                android:textColor="#f0f0f5"
-                android:textSize="12sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/scanPromptTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:gravity="center"-->
+<!--                android:lineSpacingExtra="6sp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="#f0f0f5"-->
+<!--                android:textSize="12sp" />-->
 
         </RelativeLayout>
 

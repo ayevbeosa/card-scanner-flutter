@@ -31,6 +31,7 @@ class CameraViewController: UIViewController {
     var scanPrompt: String = ""
     var backButtonPrompt: String = ""
     var permissionPrompt: String = ""
+    var titlePropt: String = ""
     
     var cameraOrientation: CameraOrientation = .portrait
     
@@ -168,6 +169,7 @@ class CameraViewController: UIViewController {
     func addScanControlsAndIndicators() {
         addCornerClips()
         addScanYourCardToProceedLabel()
+        addTitleLabel()
         addNavigationBar()
     }
     
@@ -188,7 +190,7 @@ class CameraViewController: UIViewController {
                 frame: CGRect(
                     origin: CGPoint(
                         x: center.x - 160,
-                        y: center.y + 180
+                        y: center.y - 180
                     ),
                     size: CGSize(
                         width: 320,
@@ -200,9 +202,34 @@ class CameraViewController: UIViewController {
             scanYourCardToProceedLabel.textAlignment = NSTextAlignment.center
             scanYourCardToProceedLabel.text = self.scanPrompt
             scanYourCardToProceedLabel.numberOfLines = 0
-            scanYourCardToProceedLabel.font = scanYourCardToProceedLabel.font.withSize(12.0)
+            scanYourCardToProceedLabel.font = scanYourCardToProceedLabel.font.withSize(16.0)
             scanYourCardToProceedLabel.textColor = .white
             self.view.addSubview(scanYourCardToProceedLabel)
+        }
+    }
+    
+    func addTitleLabel() {
+        DispatchQueue.main.async {
+            let center = self.view.center
+            let titleLabel = UILabel(
+                frame: CGRect(
+                    origin: CGPoint(
+                        x: center.x - 160,
+                        y: 55
+                    ),
+                    size: CGSize(
+                        width: 320,
+                        height: 20
+                    )
+                )
+            )
+            
+            titleLabel.textAlignment = NSTextAlignment.center
+            titleLabel.text = self.titlePropt
+            titleLabel.numberOfLines = 0
+            titleLabel.font = titleLabel.font.withSize(16.0)
+            titleLabel.textColor = .white
+            self.view.addSubview(titleLabel)
         }
     }
     
