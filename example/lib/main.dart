@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
         enableDebugLogs: true,
         validCardsToScanBeforeFinishingScan: 1,
         initialScansToDrop: 0,
-        scanPrompt: 'Test test',
+        scanPrompt: 'Ailgn frame with card',
         backButton: imageBase64,
         permissionPrompt: 'Нужно разрешнеие',
         enableLuhnCheck: false,
