@@ -70,6 +70,9 @@ var cardDetails = await CardScanner.scanCard(
     scanOptions: CardScanOptions(
         scanCardHolderName: true,
         scanCardIssuer: true,
+        scanPrompt: 'Ailgn frame with card',
+        backButton: imageBase64,
+        permissionPrompt: 'Permission Request',
     ),
 );
 
