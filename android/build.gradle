@@ -1,17 +1,15 @@
-group 'com.nateshmbhat.card_scanner'
-version '1.0'
-
 buildscript {
     ext {
-        kotlin_version = "1.7.10"
+        kotlin_version = "1.6.10"
     }
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -35,6 +33,8 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+
+
 }
 
 dependencies {

@@ -19,14 +19,60 @@
             android:layout_weight="1"
             android:background="@color/semitransparent">
 
-            <Button
-                android:id="@+id/backButton"
+<!--            <Button-->
+<!--                android:id="@+id/backButton"-->
+<!--                android:layout_marginStart="28dp"-->
+<!--                android:layout_marginTop="28dp"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:background="@drawable/ic_back_arrow"-->
+<!--                android:layout_height="17dp"-->
+<!--                android:textSize="24sp"/>-->
+
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lineSpacingExtra="6sp"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:layout_marginTop="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Header"
+            />
+
+
+
+            <ImageView
+                android:id="@+id/backButtonImageView"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="28dp"
-                android:layout_width="20dp"
-                android:background="@drawable/ic_back_arrow"
-                android:layout_height="17dp"
-                android:textSize="24sp"/>
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:textSize="24sp"
+                android:contentDescription="backButton" />
+
+            <TextView
+                android:id="@+id/scanPromptTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:lineSpacingExtra="6sp"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="normal"
+
+                />
+
 
 
         </RelativeLayout>
@@ -75,16 +121,28 @@
             android:layout_weight="1"
             android:background="@color/semitransparent" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="6sp"
-            android:layout_centerInParent="true"
-            android:text="Scan your card to proceed"
-            android:textAlignment="center"
-            android:textColor="#f0f0f5"
-            android:textSize="12sp" />
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:lineSpacingExtra="6sp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:text="Scan your card to proceed"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="#f0f0f5"-->
+<!--            android:textSize="12sp" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/scanPromptTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:gravity="center"-->
+<!--                android:lineSpacingExtra="6sp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="#f0f0f5"-->
+<!--                android:textSize="12sp" />-->
 
         </RelativeLayout>
 

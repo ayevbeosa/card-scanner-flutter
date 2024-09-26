@@ -28,6 +28,10 @@ class CameraViewController: UIViewController {
     var input: AVCaptureDeviceInput!
     var prompt: String = ""
     var torchOn: Bool = false
+    var scanPrompt: String = ""
+    var backButtonPrompt: String = ""
+    var permissionPrompt: String = ""
+    var titlePropt: String = ""
     
     var cameraOrientation: CameraOrientation = .portrait
     
@@ -97,6 +101,7 @@ class CameraViewController: UIViewController {
         addScanControlsAndIndicators()
         
         startScanning()
+     
     }
     
     func gainCameraPermission() {
@@ -108,18 +113,26 @@ class CameraViewController: UIViewController {
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 if granted {
                     self.setupCaptureSession()
+                }else {
+                    // Permission denied
+                    self.showPermissionDeniedToast()
                 }
             }
             
         case .denied, .restricted:
-            // The user has previously denied access; or
-            // The user can't grant access due to restrictions.
-            fallthrough
+                // Permission denied
+                showPermissionDeniedToast()
             
         @unknown default:
             NSLog("Camera Permissions Error")
             dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func showPermissionDeniedToast() {
+        let toast = ToastView(message: permissionPrompt)
+           toast.show(in: view)
+        
     }
     
     func addInputDeviceToSession() {
@@ -147,7 +160,7 @@ class CameraViewController: UIViewController {
     func refocus() {
         do {
             try device.lockForConfiguration()
-            device.focusMode = .autoFocus
+            device.focusMode = .continuousAutoFocus
         } catch {
             print(error)
         }
@@ -156,6 +169,7 @@ class CameraViewController: UIViewController {
     func addScanControlsAndIndicators() {
         addCornerClips()
         addScanYourCardToProceedLabel()
+        addTitleLabel()
         addNavigationBar()
     }
     
@@ -176,7 +190,7 @@ class CameraViewController: UIViewController {
                 frame: CGRect(
                     origin: CGPoint(
                         x: center.x - 160,
-                        y: center.y + 180
+                        y: center.y - 180
                     ),
                     size: CGSize(
                         width: 320,
@@ -186,11 +200,36 @@ class CameraViewController: UIViewController {
             )
             
             scanYourCardToProceedLabel.textAlignment = NSTextAlignment.center
-            scanYourCardToProceedLabel.text = self.prompt
+            scanYourCardToProceedLabel.text = self.scanPrompt
             scanYourCardToProceedLabel.numberOfLines = 0
-            scanYourCardToProceedLabel.font = scanYourCardToProceedLabel.font.withSize(12.0)
+            scanYourCardToProceedLabel.font = scanYourCardToProceedLabel.font.withSize(16.0)
             scanYourCardToProceedLabel.textColor = .white
             self.view.addSubview(scanYourCardToProceedLabel)
+        }
+    }
+    
+    func addTitleLabel() {
+        DispatchQueue.main.async {
+            let center = self.view.center
+            let titleLabel = UILabel(
+                frame: CGRect(
+                    origin: CGPoint(
+                        x: center.x - 160,
+                        y: 55
+                    ),
+                    size: CGSize(
+                        width: 320,
+                        height: 20
+                    )
+                )
+            )
+            
+            titleLabel.textAlignment = NSTextAlignment.center
+            titleLabel.text = self.titlePropt
+            titleLabel.numberOfLines = 0
+            titleLabel.font = titleLabel.font.withSize(16.0)
+            titleLabel.textColor = .white
+            self.view.addSubview(titleLabel)
         }
     }
     
@@ -198,7 +237,7 @@ class CameraViewController: UIViewController {
     func addNavigationBar() {
         DispatchQueue.main.async {
             self.view.addSubview(self.backButton)
-            self.view.addSubview(self.flashButton)
+//            self.view.addSubview(self.flashButton)
         }
     }
     
@@ -241,17 +280,25 @@ class CameraViewController: UIViewController {
             frame: CGRect(
                 x: 30,
                 y: 55,
-                width: 17 + 30,
-                height: 17 + 10
+                width: 30 + 30,
+                height: 30 + 10
             )
         )
         
-        backBtn.setImage(
-            UIImage(
-                named: "backButton"
-            ),
-            for: .normal
-        )
+//        backBtn.setImage(
+//            UIImage(
+//                named: "backButton"
+//            ),
+//            for: .normal
+//        )
+        
+           if let backButtonData = Data(base64Encoded: backButtonPrompt) {
+               let backButtonImage = UIImage(data: backButtonData)
+               backBtn.setImage(
+                   backButtonImage,
+                   for: .normal
+               )
+           }
         
         backBtn.addTarget(
             self,
@@ -461,4 +508,5 @@ extension AVCaptureDevice {
         return torchMode == .on
     }
 }
+
 

@@ -16,6 +16,10 @@ class SingleFrameCardScanner {
     }
     
     func scanSingleFrame(visionText: Text) -> CardDetails? {
+        
+        NSLog("visionText ",visionText)
+        
+        
         guard let optionalCardNumberResult = CardNumberFilter(
             visionText: visionText,
             scannerOptions: cardScanOptions

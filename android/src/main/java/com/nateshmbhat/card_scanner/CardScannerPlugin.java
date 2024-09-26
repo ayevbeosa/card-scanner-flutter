@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import com.nateshmbhat.card_scanner.CardScannerCameraActivity;
 import com.nateshmbhat.card_scanner.scanner_core.models.CardDetails;
 import com.nateshmbhat.card_scanner.scanner_core.models.CardScannerOptions;
 
@@ -124,6 +125,3 @@ public class CardScannerPlugin implements FlutterPlugin, MethodCallHandler, Acti
     public void onDetachedFromActivity() {
     }
 }
-
-
-
